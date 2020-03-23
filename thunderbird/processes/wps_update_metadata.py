@@ -11,6 +11,7 @@ from dp.update_metadata import main
 
 # Library imports
 import logging
+from argparse import Namespace
 
 
 LOGGER = logging.getLogger("PYWPS")
@@ -38,7 +39,7 @@ class UpdateMetadata(Process):
         ]
         outputs = []
 
-        super(SayHello, self).__init__(
+        super(UpdateMetadata, self).__init__(
             self._handler,
             identifier="update_metadata",
             title="Update Metadata",
@@ -52,9 +53,10 @@ class UpdateMetadata(Process):
 
     @staticmethod
     def _handler(request, response):
-        args = {
-            "ncfile": request.inputs['netcdf'][0].file,
-            "updates": request.inputs['updates'][0].file,
-        }
+        args = Namespace(
+            ncfile=request.inputs['netcdf'][0].file,
+            updates=request.inputs['updates'][0].file,
+        )
+
         main(args)
         return response
