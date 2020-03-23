@@ -5,6 +5,10 @@ from pywps import (
     FORMATS,
 )
 
+# Tool imports
+from nchelpers import CFDataset
+from dp.update_metadata import main
+
 # Library imports
 import logging
 
@@ -48,7 +52,9 @@ class UpdateMetadata(Process):
 
     @staticmethod
     def _handler(request, response):
-        ncfile = request.inputs['netcdf'][0].file
-        updates = request.inputs['updates'][0].file
-        print(ncfile, updates)
+        args = {
+            "ncfile": request.inputs['netcdf'][0].file,
+            "updates": request.inputs['updates'][0].file,
+        }
+        main(args)
         return response
